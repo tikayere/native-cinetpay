@@ -1,6 +1,6 @@
 # CinetPay React Native SDK
 
-[![npm version](https://badge.fury.io/js/@azinakou%2Fcinetpay.svg)](https://badge.fury.io/js/@azinakou%2Fcinetpay)
+[![npm version](https://badge.fury.io/js/@tikayere%2Fnative-cinetpay.svg)](https://badge.fury.io/js/@tikayere%2Fnative-cinetpay)
 [![TypeScript](https://img.shields.io/badge/%3C%2F%3E-TypeScript-%230074c1.svg)](http://www.typescriptlang.org/)
 [![React Native](https://img.shields.io/badge/React%20Native-0.60+-61DAFB?logo=react&logoColor=white)](https://reactnative.dev/)
 
@@ -22,7 +22,7 @@ This **React Native compatible** library allows you to:
 
 ### Install the main package
 ```bash
-npm install @azinakou/cinetpay
+npm install @tikayere/native-cinetpay
 ```
 
 ### Install required dependencies
@@ -66,7 +66,7 @@ cd ios && pod install
 ### 1. Library Initialization
 
 ```typescript
-import { Cinetpay } from '@azinakou/cinetpay';
+import { Cinetpay } from '@tikayere/native-cinetpay';
 
 const cinetpay = new Cinetpay({
   apikey: 'your-api-key',
@@ -87,7 +87,7 @@ import {
   CinetPayWebView, 
   generateTransactionId,
   PaymentConfigOptions 
-} from '@azinakou/cinetpay';
+} from '@tikayere/native-cinetpay';
 
 const PaymentScreen = () => {
   const [showWebView, setShowWebView] = useState(false);
@@ -190,7 +190,7 @@ await cinetpay.clearStoredPaymentData();
 ### Transaction ID Generation
 
 ```typescript
-import { generateTransactionId } from '@azinakou/cinetpay';
+import { generateTransactionId } from '@tikayere/native-cinetpay';
 
 const transactionId = generateTransactionId();
 // Format: "a1b2c3d4-e5f6-7890-abcd-ef1234567890"
@@ -199,7 +199,7 @@ const transactionId = generateTransactionId();
 ### Data Validation
 
 ```typescript
-import { isValidEmail, isValidPhoneNumber } from '@azinakou/cinetpay';
+import { isValidEmail, isValidPhoneNumber } from '@tikayere/native-cinetpay';
 
 const emailValid = isValidEmail('customer@example.com');
 const phoneValid = isValidPhoneNumber('+22501234567');
@@ -239,7 +239,7 @@ More information: [CinetPay Documentation](https://github.com/cinetpay/seamlessI
 
 ### Support
 
-- 📧 Issues: [GitHub Issues](https://github.com/agazinakou/cinetpay/issues)
+- 📧 Issues: [GitHub Issues](https://github.com/tikayere/native-cinetpay/issues)
 - 📚 Complete documentation: [USAGE_REACT_NATIVE.md](USAGE_REACT_NATIVE.md)
 
 ## 📄 French Version

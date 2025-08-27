@@ -2,6 +2,10 @@
 
 This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
+**Package**: @tikayere/native-cinetpay
+**Repository**: https://github.com/tikayere/native-cinetpay
+**Author**: tikayere
+
 ## Project Overview
 This is a React Native compatible TypeScript npm package that provides integration with CinetPay, a West African payment gateway. The library enables mobile money and credit card payments for React Native/Expo applications, supporting currencies like XOF, XAF, CDF, and GNF.
 

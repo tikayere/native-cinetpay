@@ -5,7 +5,7 @@ This guide shows how to integrate the CinetPay library in React Native applicati
 ## Installation
 
 ```bash
-npm install @azinakou/cinetpay
+npm install @tikayere/native-cinetpay
 
 # Install required peer dependencies
 npm install @react-native-async-storage/async-storage react-native-webview
@@ -31,7 +31,7 @@ Follow the manual linking instructions for:
 ### 1. Initialize CinetPay
 
 ```typescript
-import { Cinetpay, generateTransactionId } from '@azinakou/cinetpay';
+import { Cinetpay, generateTransactionId } from '@tikayere/native-cinetpay';
 
 const cinetpay = new Cinetpay({
   apikey: 'your-api-key',
@@ -45,7 +45,7 @@ const cinetpay = new Cinetpay({
 ### 2. Initialize Payment
 
 ```typescript
-import { PaymentConfigOptions } from '@azinakou/cinetpay';
+import { PaymentConfigOptions } from '@tikayere/native-cinetpay';
 
 const handlePayment = async () => {
   try {
@@ -79,7 +79,7 @@ const handlePayment = async () => {
 ```typescript
 import React, { useState } from 'react';
 import { View, Button, Alert } from 'react-native';
-import { CinetPayWebView } from '@azinakou/cinetpay';
+import { CinetPayWebView } from '@tikayere/native-cinetpay';
 
 const PaymentScreen = () => {
   const [showWebView, setShowWebView] = useState(false);
@@ -172,7 +172,7 @@ import {
   CinetPayWebView,
   generateTransactionId,
   PaymentConfigOptions,
-} from '@azinakou/cinetpay';
+} from '@tikayere/native-cinetpay';
 
 const App = () => {
   const [amount, setAmount] = useState('1000');

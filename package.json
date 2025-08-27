@@ -1,5 +1,5 @@
 {
-  "name": "@azinakou/cinetpay",
+  "name": "@tikayere/native-cinetpay",
   "version": "1.0.0",
   "description": "React Native compatible CinetPay payment integration library",
   "main": "./dist/index.js",
@@ -17,7 +17,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/agazinakou/cinetpay.git"
+    "url": "git+https://github.com/tikayere/native-cinetpay.git"
   },
   "keywords": [
     "cinetpay",
@@ -29,14 +29,15 @@
     "react-native-payments",
     "african-payments",
     "west-africa",
-    "azinakou"
+    "tikayere",
+    "native-cinetpay"
   ],
-  "author": "Lamine AZINAKOU",
+  "author": "tikayere",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/agazinakou/cinetpay/issues"
+    "url": "https://github.com/tikayere/native-cinetpay/issues"
   },
-  "homepage": "https://github.com/agazinakou/cinetpay#readme",
+  "homepage": "https://github.com/tikayere/native-cinetpay#readme",
   "devDependencies": {
     "@types/jest": "^29.5.12",
     "@types/react": "^18.2.6",
