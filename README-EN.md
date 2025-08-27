@@ -1,152 +1,253 @@
-### Why use this package?
-The library allows you to:
+# CinetPay React Native SDK
 
-* Accept payments with all operators available at [CinetPay](https://cinetpay.com)
+[![npm version](https://badge.fury.io/js/@azinakou%2Fcinetpay.svg)](https://badge.fury.io/js/@azinakou%2Fcinetpay)
+[![TypeScript](https://img.shields.io/badge/%3C%2F%3E-TypeScript-%230074c1.svg)](http://www.typescriptlang.org/)
+[![React Native](https://img.shields.io/badge/React%20Native-0.60+-61DAFB?logo=react&logoColor=white)](https://reactnative.dev/)
 
-* Check the status of a payment (CheckPayStatus) from the `transaction identifier or payment token`
+React Native/Expo SDK for CinetPay payment integration in West Africa.
 
-### Installation
+## 🚀 Why use this package?
 
-With [npm](http://npmjs.org) do:
+This **React Native compatible** library allows you to:
 
-    $ npm install @azinakou/cinetpay
+* ✅ **Accept payments** with all operators available at [CinetPay](https://cinetpay.com)
+* ✅ **React Native/Expo Support** - Works natively on mobile
+* ✅ **Integrated WebView** - Smooth payment flow within your app
+* ✅ **AsyncStorage** - Secure payment data storage
+* ✅ **TypeScript** - Full type support
+* ✅ **Check payment status** from transaction identifier
+* ✅ **Robust error handling** and modern architecture
 
-### Properties
+## 📱 Installation
+
+### Install the main package
+```bash
+npm install @azinakou/cinetpay
+```
+
+### Install required dependencies
+```bash
+npm install @react-native-async-storage/async-storage react-native-webview
+```
+
+### iOS - Pod Install
+```bash
+cd ios && pod install
+```
+
+## 🛠️ Configuration
+
+### Configuration Properties
 
 | Props        | Type           | Description  |
 | :------------- |:-------------| :-----|
-| `apikey` | string | Parameter of your service available in your account - <strong> Required </strong> |
-| `site_id` | number | Parameter of your service available in your account - <strong> Mandatory </strong> |
-| `notify_url` | string | the silent notification link (IPN) after payment - <strong> Mandatory </strong> |
-| `return_url` | string | The link where the customer will be redirected after payment - <strong> Required </strong> |
-| `amount` | number | Payment amount - <strong> Mandatory </strong> |
-| `transaction_id` | string | The identifier of the transaction, it must be unique - <strong> Mandatory </strong> |
-| `currency` | string | Currency of payment. <br> Options: `XOF`,` XAF`, `CDF`,` GNF` <strong> Mandatory </strong> |
-| `description` | string | Description of payment - <strong> Mandatory </strong> |
-| `channels` | string | Used to define the means of payment available on the <br> Options counter: `ALL`,` MOBILE_MONEY`, `CREDIT_CARD`) - <strong> Mandatory </strong> |
-| `customer_id` | string | Customer ID in your system - optional |
-| `customer_name` | string | Customer's first name (s) in your system - optional |
-| `customer_surname` | string | The name of the customer in your system - optional |
-| `lang` | string | Define the language of the payment counter <br> Options: `fr`,` en` <strong> Mandatory </strong> |
-| `customer_phone_number` | string | The customer's phone number in your system - optional |
-| `customer_email` | string | Customer's email address in your system - optional |
-| `customer_address` | string | The customer's address in your system - optional |
-| `customer_city` | string | The customer's city in your system - optional |
-| `customer_country` | string | The customer's country in your system. The value to send is the [ISO 3166-1 alpha-2 code](https://www.atlas-monde.net/codes-iso/) - optional |
-| `customer_state` | string | The state the client is in. This value is required if the customer is in the United States of America (US) or Canada (CA). The value to send is the [ISO 3166-1 alpha-2 code](https://www.atlas-monde.net/codes-iso/) - optional |
-| `customer_zip_code` | string | The zip code of the country where the customer is located - optional |
+| `apikey`      | string | Your CinetPay service API key - **Required** |
+| `site_id`      | number | Your CinetPay site ID - **Required**  |
+| `notify_url`      | string | IPN notification URL - **Required**  |
+| `return_url`      | string | Return URL after payment - **Required**  |
+| `lang`      | 'fr' \| 'en' | Payment gateway language - **Required** |
 
-## Initialization of the library
+### Payment Properties
+
+| Props        | Type           | Description  |
+| :------------- |:-------------| :-----|
+| `transaction_id`      | string | Unique transaction identifier - **Required** |
+| `amount`      | number | Payment amount - **Required**  |
+| `currency`      | 'XOF' \| 'XAF' \| 'CDF' \| 'GNF' | Currency - **Required**  |
+| `description`      | string | Payment description - **Required** |
+| `channels`      | 'ALL' \| 'MOBILE_MONEY' \| 'CREDIT_CARD' | Payment methods - **Required** |
+| `customer_email`      | string | Customer email - *Optional* |
+| `customer_phone_number`      | string | Customer phone - *Optional* |
+| `customer_name`      | string | Customer first name - *Optional* |
+| `customer_surname`      | string | Customer last name - *Optional* |
+
+## 💻 Usage
+
+### 1. Library Initialization
 
 ```typescript
-
-
-// If you use CommonJS imports with require() use the following approach:
-const Cinetpay = require("@azinakou/cinetpay");
-
-// With ES6
 import { Cinetpay } from '@azinakou/cinetpay';
-```
-#### Make a payment
 
-```typescript
-import { Cinetpay, PaymentConfig } from '@azinakou/cinetpay';
-
-...
-
-const cp = new Cinetpay({
-    apikey: '',
-    site_id: ,
-    notify_url: '',
-    return_url: '',
-    lang: '',
-  });
-
-const payConfig: PaymentConfig = {
-    transaction_id: '' // Unique transaction identifier in your database,
-    amount: ,
-    currency: '',
-    channels: '',
-    description: ''
-};
-cp.makePayment(payConfig)
-    .then(response => console.log(response))
-    .catch(err => console.log(err))
+const cinetpay = new Cinetpay({
+  apikey: 'your-api-key',
+  site_id: 123456,
+  notify_url: 'https://your-site.com/notify',
+  return_url: 'https://your-site.com/return',
+  lang: 'en',
+});
 ```
 
-
-#### View the status of a payment
-```typescript
-
-import { Cinetpay, PaymentConfig } from '@azinakou/cinetpay';
-
-...
-
-const cp = new Cinetpay({
-    apikey: '',
-    site_id: ,
-    notify_url: '',
-    return_url: '',
-    lang: '',
-  });
-
-const token = ''; // Identifier of the transaction or payment_token obtained when initializing the payment
-
-cp.checkPayStatus(token)
-    .then(response => console.log(response))
-    .catch(err => console.log(err))
-```
-
-### Notification URL
-For those who have services that do not require processing of payment notifications from CinetPay, you can skip this step for example donation services.
-
-With each payment, CinetPay notifies you via a notification link `notify_url`, we advise you to always process it on the server side. Follow this link to learn more about the [Payment Notification](https://github.com/cinetpay/seamlessIntegration#etape-1--pr%C3%A9parer-la-page-de-notification)
-
-### Compatibility
-This package has been tested and works on all modern browsers including:
-
-* Google Chrome
-* Mozilla Firefox
-* Safari
-
-## Example
+### 2. Payment Interface with WebView
 
 ```typescript
-import { Cinetpay, PaymentConfig } from '@azinakou/cinetpay';
+import React, { useState } from 'react';
+import { View, Button, Alert } from 'react-native';
+import { 
+  Cinetpay, 
+  CinetPayWebView, 
+  generateTransactionId,
+  PaymentConfigOptions 
+} from '@azinakou/cinetpay';
 
-...
+const PaymentScreen = () => {
+  const [showWebView, setShowWebView] = useState(false);
+  const [paymentUrl, setPaymentUrl] = useState('');
 
-const cp = new Cinetpay({
-    apikey: '5579980505863a3f6aabd82.89189525',
-    site_id: 659913,
-    notify_url: 'https://my-website.com/notify',
-    return_url: 'https://my-website.com/return',
+  const cinetpay = new Cinetpay({
+    apikey: 'your-api-key',
+    site_id: 123456,
+    notify_url: 'https://your-site.com/notify',
+    return_url: 'https://your-site.com/return',
     lang: 'en',
   });
 
+  const handlePayment = async () => {
+    try {
+      const paymentConfig: PaymentConfigOptions = {
+        transaction_id: generateTransactionId(),
+        amount: 1000,
+        currency: 'XOF',
+        channels: 'ALL',
+        description: 'React Native test payment',
+        customer_email: 'customer@example.com',
+      };
 
-//Générer un nouveau identifiant de transaction
-const s4 = () => {
-return Math.floor((1 + Math.random()) * 0x10000)
-    .toString(16)
-    .substring(1);
+      const response = await cinetpay.makePayment(paymentConfig);
+      
+      if (response.code === '201' && response.data?.payment_url) {
+        setPaymentUrl(response.data.payment_url);
+        setShowWebView(true);
+      } else {
+        Alert.alert('Error', response.message || 'Payment initialization failed');
+      }
+    } catch (error) {
+      Alert.alert('Error', error.message || 'Payment error');
+    }
+  };
+
+  if (showWebView && paymentUrl) {
+    return (
+      <CinetPayWebView
+        paymentUrl={paymentUrl}
+        returnUrl="https://your-site.com/return"
+        onPaymentSuccess={(data) => {
+          Alert.alert('Success', 'Payment completed successfully!');
+          setShowWebView(false);
+        }}
+        onPaymentError={(error) => {
+          Alert.alert('Error', error);
+          setShowWebView(false);
+        }}
+        onPaymentCancel={() => {
+          Alert.alert('Cancelled', 'Payment cancelled');
+          setShowWebView(false);
+        }}
+      />
+    );
+  }
+
+  return (
+    <View style={{ flex: 1, justifyContent: 'center', padding: 20 }}>
+      <Button title="Pay with CinetPay" onPress={handlePayment} />
+    </View>
+  );
 };
-const uniqId = s4() + s4() + '-' + s4() + '-' + s4() + '-' + s4() + '-' + s4() + s4() + s4();
-//Output format c2181edf-041b-0a61-3651-79d671fa3db7
-
-
-const payConfig: PaymentConfig = {
-    transaction_id: uniqId,
-    amount: 300,
-    currency: 'XOF',
-    channels: 'ALL',
-    description: 'Payment test'
-};
-cp.makePayment(payConfig)
-    .then(response => console.log(response))
-    .catch(err => console.log(err))
 ```
 
-Version française [Here](README.md)
+### 3. Payment Status Verification
 
-## Have a greet day :)
+```typescript
+const checkPaymentStatus = async (transactionId: string) => {
+  try {
+    const statusResponse = await cinetpay.checkPayStatus(transactionId);
+    
+    if (statusResponse.code === '00') {
+      console.log('Payment successful:', statusResponse.data);
+    } else {
+      console.log('Payment pending:', statusResponse.message);
+    }
+  } catch (error) {
+    console.error('Status check error:', error);
+  }
+};
+```
+
+### 4. Stored Data Management
+
+```typescript
+// Retrieve stored payment data
+const storedPayment = await cinetpay.getStoredPaymentData();
+
+// Retrieve stored payment status
+const storedStatus = await cinetpay.getStoredPaymentStatus(transactionId);
+
+// Clear all stored data
+await cinetpay.clearStoredPaymentData();
+```
+
+## 🔧 Utilities
+
+### Transaction ID Generation
+
+```typescript
+import { generateTransactionId } from '@azinakou/cinetpay';
+
+const transactionId = generateTransactionId();
+// Format: "a1b2c3d4-e5f6-7890-abcd-ef1234567890"
+```
+
+### Data Validation
+
+```typescript
+import { isValidEmail, isValidPhoneNumber } from '@azinakou/cinetpay';
+
+const emailValid = isValidEmail('customer@example.com');
+const phoneValid = isValidPhoneNumber('+22501234567');
+```
+
+## 📖 Complete Example
+
+See the [USAGE_REACT_NATIVE.md](USAGE_REACT_NATIVE.md) file for a complete integration example.
+
+## 🌍 Compatibility
+
+### Supported Platforms
+- ✅ **React Native** 0.60+
+- ✅ **Expo** (SDK 41+)
+- ✅ **Android** API 21+
+- ✅ **iOS** 11.0+
+
+### Supported Currencies
+- **XOF** - CFA Franc (West Africa)
+- **XAF** - CFA Franc (Central Africa)
+- **CDF** - Congolese Franc
+- **GNF** - Guinean Franc
+
+## 🔗 Notification URL
+
+To receive payment notifications, configure your `notify_url` to handle CinetPay webhooks on the server side.
+
+More information: [CinetPay Documentation](https://github.com/cinetpay/seamlessIntegration#etape-1--pr%C3%A9parer-la-page-de-notification)
+
+## 🆘 Troubleshooting
+
+### Common Errors
+
+1. **Module not found** - Make sure you have installed all dependencies
+2. **WebView not working** - Check that `react-native-webview` is properly linked
+3. **AsyncStorage** - Check that `@react-native-async-storage/async-storage` is installed
+
+### Support
+
+- 📧 Issues: [GitHub Issues](https://github.com/agazinakou/cinetpay/issues)
+- 📚 Complete documentation: [USAGE_REACT_NATIVE.md](USAGE_REACT_NATIVE.md)
+
+## 📄 French Version
+
+Version française disponible [ici](README.md)
+
+---
+
+## 🎉 Happy Coding!
+
+Developed with ❤️ for the African React Native community.

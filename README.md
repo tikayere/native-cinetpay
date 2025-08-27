@@ -1,151 +1,253 @@
-### Pourquoi utiliser ce package ?
-La bibliothèque vous permet de :
+# CinetPay React Native SDK
 
-* Accepter des paiements avec tous les opérateurs disponible chez [CinetPay](https://cinetpay.com)
+[![npm version](https://badge.fury.io/js/@azinakou%2Fcinetpay.svg)](https://badge.fury.io/js/@azinakou%2Fcinetpay)
+[![TypeScript](https://img.shields.io/badge/%3C%2F%3E-TypeScript-%230074c1.svg)](http://www.typescriptlang.org/)
+[![React Native](https://img.shields.io/badge/React%20Native-0.60+-61DAFB?logo=react&logoColor=white)](https://reactnative.dev/)
 
-* Verifier le statut d'un paiement (CheckPayStatus) à partir de `l'identifiant de la transaction ou du token de paiement`
+SDK React Native/Expo pour l'intégration des paiements CinetPay en Afrique de l'Ouest.
 
-### Installation
+## 🚀 Pourquoi utiliser ce package ?
 
-Avec [npm](http://npmjs.org) faire:
+Cette bibliothèque **React Native compatible** vous permet de :
 
-    $ npm install @azinakou/cinetpay
+* ✅ **Accepter des paiements** avec tous les opérateurs disponibles chez [CinetPay](https://cinetpay.com)
+* ✅ **Support React Native/Expo** - Fonctionne nativement sur mobile
+* ✅ **WebView intégré** - Flux de paiement fluide dans votre application
+* ✅ **AsyncStorage** - Stockage sécurisé des données de paiement
+* ✅ **TypeScript** - Support complet des types
+* ✅ **Vérifier le statut des paiements** à partir de l'identifiant de transaction
+* ✅ **Gestion d'erreurs** robuste et moderne
 
-### Propriétés
+## 📱 Installation
+
+### Installer le package principal
+```bash
+npm install @azinakou/cinetpay
+```
+
+### Installer les dépendances requises
+```bash
+npm install @react-native-async-storage/async-storage react-native-webview
+```
+
+### iOS - Pod Install
+```bash
+cd ios && pod install
+```
+
+## 🛠️ Configuration
+
+### Propriétés de Configuration
 
 | Props        | Type           | Description  |
 | :------------- |:-------------| :-----|
-| `apikey`      | string | Paramètre de votre service disponible dans votre compte - <strong>Obligatoire</strong> |
-| `site_id`      | number | Paramètre de votre service disponible dans votre compte - <strong>Obligatoire</strong>  |
-| `notify_url`      | string | le lien de notification silencieuse (IPN) après paiement - <strong>Obligatoire</strong>  |
-| `return_url`      | string | Le lien où le client sera redirigé après le paiement - <strong>Obligatoire</strong>  |
-| `amount`      | number | Montant du paiement - <strong>Obligatoire</strong>  |
-| `transaction_id`      | string | L'identifiant de la transaction, elle doit être unique - <strong>Obligatoire</strong>  |
-| `currency`      | string | Devise du paiement. <br> Options : `XOF`, `XAF`, `CDF`, `GNF` <strong>Obligatoire</strong>  |
-| `description`      | string | Description du paiement  - <strong>Obligatoire</strong> |
-| `channels`      | string | Permet de définir les moyens de paiement présent sur le guichet <br> Options : `ALL`, `MOBILE_MONEY`, `CREDIT_CARD`) - <strong>Obligatoire</strong> |
-| `customer_id`      | string | L’identifiant du client dans votre système - facultatif |
-| `customer_name`      | string | Le prénom(s) du client dans votre système - facultatif |
-| `customer_surname`      | string | Le nom du client dans votre système - facultatif |
-| `lang`      | string | Définie la langue du guichet de paiement <br> Options : `fr`, `en` <strong>Obligatoire</strong> |
-| `customer_phone_number`      | string | Le numéro de téléphone du client dans votre système - facultatif |
-| `customer_email`      | string | L’adresse mail du client dans votre système - facultatif |
-| `customer_address`      | string | L’adresse du client dans votre système - facultatif |
-| `customer_city`      | string | La ville du client dans votre système - facultatif |
-| `customer_country`      | string | Le pays du client dans votre système. La valeur à envoyer est le  [Code ISO 3166-1 alpha-2 ](https://www.atlas-monde.net/codes-iso/) - facultatif |
-| `customer_state`      | string | L’état dans de la quel se trouve le client. Cette valeur est obligatoire si le client se trouve au États Unis d’Amérique (US) ou au Canada (CA). La valeur à envoyer est le  [Code ISO 3166-1 alpha-2 ](https://www.atlas-monde.net/codes-iso/) - facultatif |
-| `customer_zip_code`      | string | Le code zip du pays dans lequel se trouve le client - facultatif |
+| `apikey`      | string | Clé API de votre service CinetPay - **Obligatoire** |
+| `site_id`      | number | ID de votre site CinetPay - **Obligatoire**  |
+| `notify_url`      | string | URL de notification IPN - **Obligatoire**  |
+| `return_url`      | string | URL de retour après paiement - **Obligatoire**  |
+| `lang`      | 'fr' \| 'en' | Langue du guichet de paiement - **Obligatoire** |
 
-## Initialisation de la librairie
+### Propriétés de Paiement
+
+| Props        | Type           | Description  |
+| :------------- |:-------------| :-----|
+| `transaction_id`      | string | Identifiant unique de transaction - **Obligatoire** |
+| `amount`      | number | Montant du paiement - **Obligatoire**  |
+| `currency`      | 'XOF' \| 'XAF' \| 'CDF' \| 'GNF' | Devise - **Obligatoire**  |
+| `description`      | string | Description du paiement - **Obligatoire** |
+| `channels`      | 'ALL' \| 'MOBILE_MONEY' \| 'CREDIT_CARD' | Moyens de paiement - **Obligatoire** |
+| `customer_email`      | string | Email du client - *Facultatif* |
+| `customer_phone_number`      | string | Téléphone du client - *Facultatif* |
+| `customer_name`      | string | Prénom du client - *Facultatif* |
+| `customer_surname`      | string | Nom du client - *Facultatif* |
+
+## 💻 Utilisation
+
+### 1. Initialisation de la librairie
 
 ```typescript
-
-
-// If you use CommonJS imports with require() use the following approach:
-const Cinetpay = require("@azinakou/cinetpay");
-
-// With ES6
 import { Cinetpay } from '@azinakou/cinetpay';
-```
-#### Effectuer un paiement
-```typescript
-import { Cinetpay, PaymentConfig } from '@azinakou/cinetpay';
 
-...
-
-const cp = new Cinetpay({
-    apikey: '',
-    site_id: ,
-    notify_url: '',
-    return_url: '',
-    lang: '',
-  });
-
-const payConfig: PaymentConfig = {
-    transaction_id: '' // Identifiant de transaction unique dans votre base de donnée,
-    amount: ,
-    currency: '',
-    channels: '',
-    description: ''
-};
-cp.makePayment(payConfig)
-    .then(response => console.log(response))
-    .catch(err => console.log(err))
+const cinetpay = new Cinetpay({
+  apikey: 'votre-cle-api',
+  site_id: 123456,
+  notify_url: 'https://votre-site.com/notify',
+  return_url: 'https://votre-site.com/return',
+  lang: 'fr',
+});
 ```
 
-
-#### Voir le statut d'un paiement
-```typescript
-
-import { Cinetpay, PaymentConfig } from '@azinakou/cinetpay';
-
-...
-
-const cp = new Cinetpay({
-    apikey: '',
-    site_id: ,
-    notify_url: '',
-    return_url: '',
-    lang: '',
-  });
-
-const token = ''; // Identifiant de la transaction ou payment_token obtenu lors de l’initialisation du paiement
-
-cp.checkPayStatus(token)
-    .then(response => console.log(response))
-    .catch(err => console.log(err))
-```
-
-### URL de Notification
-Pour ceux qui possèdent des services qui ne neccessitent pas un traitement des notifications de paiement de CinetPay, vous pouvez ignorer cette étape par exemple les services de don.
-
-A chaque paiement, CinetPay vous notifie via un lien de notification `notify_url`, nous vous conseillons de toujours le traiter côté serveur. Suivez ce lien pour en savoir plus sur la [Notification de paiement](https://github.com/cinetpay/seamlessIntegration#etape-1--pr%C3%A9parer-la-page-de-notification)
-
-### Compatibilité
-Ce package a été testé et fonctionne sur tous les navigateurs modernes y compris :
-
-* Google Chrome
-* Mozilla Firefox
-* Safari
-
-## Exemple
+### 2. Interface de Paiement avec WebView
 
 ```typescript
-import { Cinetpay, PaymentConfig } from '@azinakou/cinetpay';
+import React, { useState } from 'react';
+import { View, Button, Alert } from 'react-native';
+import { 
+  Cinetpay, 
+  CinetPayWebView, 
+  generateTransactionId,
+  PaymentConfigOptions 
+} from '@azinakou/cinetpay';
 
-...
+const PaymentScreen = () => {
+  const [showWebView, setShowWebView] = useState(false);
+  const [paymentUrl, setPaymentUrl] = useState('');
 
-const cp = new Cinetpay({
-    apikey: '5579980505863a3f6aabd82.89189525',
-    site_id: 659913,
-    notify_url: 'https://mon-site-internet.com/notify',
-    return_url: 'https://mon-site-internet.com/return',
+  const cinetpay = new Cinetpay({
+    apikey: 'votre-cle-api',
+    site_id: 123456,
+    notify_url: 'https://votre-site.com/notify',
+    return_url: 'https://votre-site.com/return',
     lang: 'fr',
   });
 
+  const handlePayment = async () => {
+    try {
+      const paymentConfig: PaymentConfigOptions = {
+        transaction_id: generateTransactionId(),
+        amount: 1000,
+        currency: 'XOF',
+        channels: 'ALL',
+        description: 'Paiement test React Native',
+        customer_email: 'client@example.com',
+      };
 
-//Générer un nouveau identifiant de transaction
-const s4 = () => {
-return Math.floor((1 + Math.random()) * 0x10000)
-    .toString(16)
-    .substring(1);
+      const response = await cinetpay.makePayment(paymentConfig);
+      
+      if (response.code === '201' && response.data?.payment_url) {
+        setPaymentUrl(response.data.payment_url);
+        setShowWebView(true);
+      } else {
+        Alert.alert('Erreur', response.message || 'Échec de l\'initialisation du paiement');
+      }
+    } catch (error) {
+      Alert.alert('Erreur', error.message || 'Erreur de paiement');
+    }
+  };
+
+  if (showWebView && paymentUrl) {
+    return (
+      <CinetPayWebView
+        paymentUrl={paymentUrl}
+        returnUrl="https://votre-site.com/return"
+        onPaymentSuccess={(data) => {
+          Alert.alert('Succès', 'Paiement effectué avec succès !');
+          setShowWebView(false);
+        }}
+        onPaymentError={(error) => {
+          Alert.alert('Erreur', error);
+          setShowWebView(false);
+        }}
+        onPaymentCancel={() => {
+          Alert.alert('Annulé', 'Paiement annulé');
+          setShowWebView(false);
+        }}
+      />
+    );
+  }
+
+  return (
+    <View style={{ flex: 1, justifyContent: 'center', padding: 20 }}>
+      <Button title="Payer avec CinetPay" onPress={handlePayment} />
+    </View>
+  );
 };
-const uniqId = s4() + s4() + '-' + s4() + '-' + s4() + '-' + s4() + '-' + s4() + s4() + s4();
-//Output format c2181edf-041b-0a61-3651-79d671fa3db7
-
-
-const payConfig: PaymentConfig = {
-    transaction_id: uniqId,
-    amount: 300,
-    currency: 'XOF',
-    channels: 'ALL',
-    description: 'Test de paiement'
-};
-cp.makePayment(payConfig)
-    .then(response => console.log(response))
-    .catch(err => console.log(err))
 ```
 
-English version [Here](README-EN.md)
+### 3. Vérification du statut de paiement
 
-## Have a greet day :)
+```typescript
+const checkPaymentStatus = async (transactionId: string) => {
+  try {
+    const statusResponse = await cinetpay.checkPayStatus(transactionId);
+    
+    if (statusResponse.code === '00') {
+      console.log('Paiement réussi :', statusResponse.data);
+    } else {
+      console.log('Paiement en attente :', statusResponse.message);
+    }
+  } catch (error) {
+    console.error('Erreur de vérification :', error);
+  }
+};
+```
+
+### 4. Gestion des données stockées
+
+```typescript
+// Récupérer les données de paiement stockées
+const storedPayment = await cinetpay.getStoredPaymentData();
+
+// Récupérer le statut d'un paiement stocké
+const storedStatus = await cinetpay.getStoredPaymentStatus(transactionId);
+
+// Effacer toutes les données stockées
+await cinetpay.clearStoredPaymentData();
+```
+
+## 🔧 Utilitaires
+
+### Génération d'identifiants de transaction
+
+```typescript
+import { generateTransactionId } from '@azinakou/cinetpay';
+
+const transactionId = generateTransactionId();
+// Format: "a1b2c3d4-e5f6-7890-abcd-ef1234567890"
+```
+
+### Validation des données
+
+```typescript
+import { isValidEmail, isValidPhoneNumber } from '@azinakou/cinetpay';
+
+const emailValid = isValidEmail('client@example.com');
+const phoneValid = isValidPhoneNumber('+22501234567');
+```
+
+## 📖 Exemple complet
+
+Voir le fichier [USAGE_REACT_NATIVE.md](USAGE_REACT_NATIVE.md) pour un exemple complet d'intégration.
+
+## 🌍 Compatibilité
+
+### Plateformes supportées
+- ✅ **React Native** 0.60+
+- ✅ **Expo** (SDK 41+)
+- ✅ **Android** API 21+
+- ✅ **iOS** 11.0+
+
+### Devises supportées
+- **XOF** - Franc CFA (Afrique de l'Ouest)
+- **XAF** - Franc CFA (Afrique Centrale)
+- **CDF** - Franc Congolais
+- **GNF** - Franc Guinéen
+
+## 🔗 URL de Notification
+
+Pour recevoir les notifications de paiement, configurez votre `notify_url` pour traiter les webhooks CinetPay côté serveur. 
+
+Plus d'informations : [Documentation CinetPay](https://github.com/cinetpay/seamlessIntegration#etape-1--pr%C3%A9parer-la-page-de-notification)
+
+## 🆘 Dépannage
+
+### Erreurs courantes
+
+1. **Module non trouvé** - Assurez-vous d'avoir installé toutes les dépendances
+2. **WebView ne fonctionne pas** - Vérifiez que `react-native-webview` est correctement lié
+3. **AsyncStorage** - Vérifiez que `@react-native-async-storage/async-storage` est installé
+
+### Support
+
+- 📧 Issues: [GitHub Issues](https://github.com/agazinakou/cinetpay/issues)
+- 📚 Documentation complète: [USAGE_REACT_NATIVE.md](USAGE_REACT_NATIVE.md)
+
+## 📄 Version Anglaise
+
+English version available [here](README-EN.md)
+
+---
+
+## 🎉 Bon développement !
+
+Développé avec ❤️ pour la communauté React Native africaine.
